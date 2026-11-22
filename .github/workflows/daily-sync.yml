@@ -1,0 +1,161 @@
+name: GitPulse Daily Sync & Web Publish
+
+on:
+  schedule:
+    # 每天北京时间 07:30（UTC 23:30）自动执行抓取、AI 加工、云开发入库并发布公开网页版 + RSS
+    - cron: '30 23 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '仅导出 snapshot.json 并发布网页/RSS，不推送微信云开发'
+        required: false
+        type: boolean
+        default: false
+      publish_web:
+        description: '同步完成后自动构建并发布 GitHub Pages 公开网页版与 RSS 源'
+        required: false
+        type: boolean
+        default: true
+      periods:
+        description: '抓取榜单周期（逗号分隔：daily,weekly）'
+        required: false
+        type: string
+        default: 'daily,weekly'
+      date:
+        description: '覆盖期刊日期（YYYY-MM-DD，留空自动使用北京时间当日）'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: gitpulse-daily-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Scrape, Summarize & Ingest
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: crawler
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          cache-dependency-path: crawler/pnpm-lock.yaml
+
+      - name: Install crawler dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: TypeScript typecheck
+        run: pnpm typecheck
+
+      - name: Run GitPulse crawler pipeline
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          CLOUDBASE_INGEST_URL: ${{ secrets.CLOUDBASE_INGEST_URL }}
+          INGEST_SECRET: ${{ secrets.INGEST_SECRET }}
+          COMPLIANCE_EXTRA_BLOCKLIST: ${{ secrets.COMPLIANCE_EXTRA_BLOCKLIST }}
+          COMPLIANCE_ALLOWLIST: ${{ secrets.COMPLIANCE_ALLOWLIST }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+          INPUT_PERIODS: ${{ inputs.periods }}
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          ARGS=(--out ../miniprogram/src/data/snapshot.json)
+          # 若手动选择 dry_run 或尚未配置云开发密钥，自动以 dry-run 模式仅生成网页与 RSS 数据
+          if [ "${INPUT_DRY_RUN}" = "true" ] || [ -z "${CLOUDBASE_INGEST_URL}" ] || [ -z "${INGEST_SECRET}" ]; then
+            echo "Running in snapshot-only mode (CloudBase push skipped)."
+            ARGS+=(--dry-run)
+          fi
+          if [ -n "${INPUT_PERIODS}" ]; then
+            ARGS+=(--periods "${INPUT_PERIODS}")
+          fi
+          if [ -n "${INPUT_DATE}" ]; then
+            ARGS+=(--date "${INPUT_DATE}")
+          fi
+          pnpm sync "${ARGS[@]}"
+
+      - name: Upload merged snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitpulse-snapshot
+          path: miniprogram/src/data/snapshot.json
+          retention-days: 7
+
+  publish-web:
+    name: Build & Deploy Web + RSS to GitHub Pages
+    needs: sync
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_web != false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download latest snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: gitpulse-snapshot
+          path: miniprogram/src/data
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install miniprogram dependencies & build H5 web app
+        working-directory: miniprogram
+        env:
+          TARO_APP_H5_PUBLIC_PATH: ${{ steps.pages.outputs.base_path }}/
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build:h5
+
+      - name: Install crawler & generate RSS + JSON Feed
+        working-directory: crawler
+        env:
+          SITE_URL: ${{ vars.GITPULSE_SITE_URL || steps.pages.outputs.base_url }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm generate-feeds \
+            --snapshot ../miniprogram/src/data/snapshot.json \
+            --out-dir ../miniprogram/dist/h5 \
+            --site-url "${SITE_URL}"
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: miniprogram/dist/h5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

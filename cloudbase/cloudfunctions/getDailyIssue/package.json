@@ -1,0 +1,12 @@
+{
+  "name": "gitpulse-get-daily-issue",
+  "version": "1.0.0",
+  "description": "GitPulse cloud function to fetch a daily or weekly issue, filtered repos, available dates, bookmarks, and push subscription state",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

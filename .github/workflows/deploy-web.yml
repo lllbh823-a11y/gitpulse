@@ -1,0 +1,74 @@
+name: GitPulse Deploy Public Web & RSS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'miniprogram/**'
+      - 'crawler/src/feedGenerator.ts'
+      - 'crawler/src/generateFeeds.ts'
+      - '.github/workflows/deploy-web.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build H5 Web + RSS & Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build H5 web app
+        working-directory: miniprogram
+        env:
+          TARO_APP_H5_PUBLIC_PATH: ${{ steps.pages.outputs.base_path }}/
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build:h5
+
+      - name: Generate RSS 2.0 & JSON Feed 1.1
+        working-directory: crawler
+        env:
+          SITE_URL: ${{ vars.GITPULSE_SITE_URL || steps.pages.outputs.base_url }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm generate-feeds \
+            --snapshot ../miniprogram/src/data/snapshot.json \
+            --out-dir ../miniprogram/dist/h5 \
+            --site-url "${SITE_URL}"
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: miniprogram/dist/h5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

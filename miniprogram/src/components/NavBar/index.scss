@@ -1,0 +1,131 @@
+.gp-navbar-wrap {
+  width: 100%;
+}
+
+.gp-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(247, 246, 242, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #e8e6df;
+}
+
+/* #ifdef h5 */
+@media (min-width: 431px) {
+  .gp-navbar {
+    max-width: 430px;
+    left: 50%;
+    right: auto;
+    width: 100%;
+    transform: translateX(-50%);
+  }
+}
+/* #endif */
+
+.gp-navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 28px;
+}
+
+.gp-navbar__left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.gp-navbar__back {
+  width: 88px;
+  height: 88px;
+  margin-left: -20px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  transition: transform 150ms ease-out, background-color 150ms ease-out;
+}
+
+.gp-navbar__back--active,
+.gp-navbar__back:active {
+  background-color: #efece4;
+  transform: scale(0.94);
+}
+
+.gp-navbar__back-arrow {
+  font-size: 52px;
+  line-height: 1;
+  color: #14171a;
+  font-weight: 400;
+  margin-top: -4px;
+}
+
+.gp-navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.gp-navbar__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background-color: #0f9d58;
+  box-shadow: 0 0 0 6px rgba(15, 157, 88, 0.16);
+  flex-shrink: 0;
+}
+
+.gp-navbar__wordmark {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  color: #14171a;
+  line-height: 1.1;
+}
+
+.gp-navbar__issue {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0b7a43;
+  background-color: #e8f7ef;
+  border: 1px solid rgba(15, 157, 88, 0.22);
+  padding: 4px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.gp-navbar__title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-width: 0;
+}
+
+.gp-navbar__title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #14171a;
+  letter-spacing: -0.3px;
+}
+
+.gp-navbar__subtitle {
+  font-size: 22px;
+  color: #767f88;
+}
+
+.gp-navbar__right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.gp-navbar__spacer {
+  width: 100%;
+}

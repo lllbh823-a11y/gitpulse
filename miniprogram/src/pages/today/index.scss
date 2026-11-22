@@ -1,0 +1,342 @@
+.gp-today {
+  min-height: 100vh;
+  background-color: #f7f6f2;
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+}
+
+.gp-today__body {
+  padding: 20px 28px 32px;
+}
+
+.gp-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  background-color: #efece4;
+  border: 1px solid #e2dfd5;
+}
+
+.gp-preview-bar__text {
+  font-size: 22px;
+  color: #5a626a;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.gp-preview-bar__close {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #767f88;
+  flex-shrink: 0;
+}
+
+/* Editorial Hero */
+.gp-digest-hero {
+  background-color: #ffffff;
+  border: 1px solid #e8e6df;
+  border-radius: 28px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.gp-digest-hero__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.gp-digest-hero__date-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.gp-digest-hero__kicker {
+  font-size: 21px;
+  font-weight: 600;
+  color: #0b7a43;
+  letter-spacing: 1px;
+}
+
+.gp-digest-hero__date {
+  font-size: 34px;
+  font-weight: 800;
+  color: #14171a;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.gp-period-switch {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 999px;
+  background-color: #f3f1ea;
+  border: 1px solid #e8e6df;
+  flex-shrink: 0;
+}
+
+.gp-period-switch__item {
+  min-height: 64px;
+  padding: 0 24px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #5a626a;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.gp-period-switch__item--active {
+  background-color: #14171a;
+  color: #ffffff;
+}
+
+/* Date Strip */
+.gp-date-strip {
+  margin-top: 20px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.gp-date-strip__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  scroll-snap-type: x proximity;
+}
+
+.gp-date-chip {
+  min-height: 64px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background-color: #f7f6f2;
+  border: 1px solid #e8e6df;
+  color: #5a626a;
+  font-size: 23px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.gp-date-chip--active {
+  background-color: #e8f7ef;
+  border-color: rgba(15, 157, 88, 0.35);
+  color: #0b7a43;
+}
+
+/* Brief Quote */
+.gp-digest-hero__brief {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background-color: #f7f6f2;
+  border-left: 6px solid #14171a;
+}
+
+.gp-digest-hero__brief-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.gp-digest-hero__brief-label {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #5a626a;
+  letter-spacing: 1px;
+}
+
+.gp-digest-hero__ai-pill {
+  font-size: 19px;
+  font-weight: 600;
+  color: #5a626a;
+  background-color: #efece4;
+  border: 1px solid #e2dfd5;
+  padding: 2px 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.gp-digest-hero__summary {
+  display: block;
+  font-size: 27px;
+  color: #14171a;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* Subscribe Strip */
+.gp-subscribe-strip {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid #f1efe8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.gp-subscribe-strip__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.gp-subscribe-strip__status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gp-subscribe-strip__indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background-color: #c5c0b4;
+  flex-shrink: 0;
+}
+
+.gp-subscribe-strip__indicator--on {
+  background-color: #0f9d58;
+}
+
+.gp-subscribe-strip__title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #14171a;
+}
+
+.gp-subscribe-strip__sub {
+  font-size: 22px;
+  color: #767f88;
+  line-height: 1.4;
+}
+
+.gp-subscribe-strip__cta {
+  min-height: 80px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background-color: #0f9d58;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 150ms ease-out, background-color 150ms ease-out;
+}
+
+.gp-subscribe-strip__cta--active,
+.gp-subscribe-strip__cta:active {
+  background-color: #0b7a43;
+  transform: scale(0.96);
+}
+
+.gp-subscribe-strip__cta--busy {
+  opacity: 0.65;
+}
+
+.gp-subscribe-strip__cta-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Category Filter Strip */
+.gp-cat-bar {
+  width: 100%;
+  margin-bottom: 22px;
+  white-space: nowrap;
+}
+
+.gp-cat-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 0;
+  scroll-snap-type: x proximity;
+}
+
+.gp-cat-chip {
+  min-height: 76px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  border: 1px solid #e8e6df;
+  color: #5a626a;
+  font-size: 25px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.gp-cat-chip:active {
+  transform: scale(0.96);
+}
+
+.gp-cat-chip--active {
+  background-color: #14171a;
+  border-color: #14171a;
+  color: #ffffff;
+}
+
+/* Section Head */
+.gp-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.gp-section-head__title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #14171a;
+}
+
+.gp-section-head__count {
+  font-size: 23px;
+  color: #767f88;
+}
+
+.gp-list-end {
+  padding: 24px 0 12px;
+  text-align: center;
+}
+
+.gp-list-end__text {
+  display: block;
+  font-size: 22px;
+  color: #8c949c;
+}
+
+.gp-list-end__note {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  color: #9ba3ab;
+  line-height: 1.5;
+}

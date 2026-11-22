@@ -1,0 +1,12 @@
+{
+  "name": "gitpulse-bookmark",
+  "version": "1.0.0",
+  "description": "GitPulse cloud function to toggle and list user repository bookmarks isolated by WeChat OPENID",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

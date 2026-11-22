@@ -1,0 +1,98 @@
+@keyframes gp-pulse-shimmer {
+  0% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+.gp-skeleton-card {
+  background-color: #ffffff;
+  border: 1px solid #e8e6df;
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.gp-skeleton-card__top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.gp-skeleton-card__title-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gp-skeleton-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f1efe8;
+}
+
+.gp-skeleton-box {
+  background-color: #efece4;
+  border-radius: 10px;
+  animation: gp-pulse-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gp-skeleton-box {
+    animation: none;
+  }
+}
+
+.gp-skeleton-box--rank {
+  width: 48px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.gp-skeleton-box--owner {
+  width: 34%;
+  height: 22px;
+}
+
+.gp-skeleton-box--name {
+  width: 68%;
+  height: 30px;
+}
+
+.gp-skeleton-box--pill {
+  width: 130px;
+  height: 44px;
+  border-radius: 999px;
+}
+
+.gp-skeleton-box--line {
+  width: 96%;
+  height: 28px;
+  margin-bottom: 12px;
+}
+
+.gp-skeleton-box--line-short {
+  width: 64%;
+  height: 28px;
+}
+
+.gp-skeleton-box--meta {
+  width: 44%;
+  height: 26px;
+}
+
+.gp-skeleton-box--btn {
+  width: 112px;
+  height: 54px;
+  border-radius: 999px;
+}

@@ -1,0 +1,9 @@
+{
+  "desc": "GitPulse 小程序索引配置",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

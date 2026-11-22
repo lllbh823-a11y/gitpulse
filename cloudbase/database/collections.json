@@ -1,0 +1,145 @@
+{
+  "version": "1.0",
+  "description": "GitPulse 微信云开发数据库集合、权限与索引配置清单（所有集合均仅限云函数管理端读写，前端禁止直连）",
+  "collections": [
+    {
+      "collectionName": "daily_issues",
+      "description": "每日/每周 Trending 期刊主表，主键 _id 为 `${date}_${period}`（如 2026-11-22_daily）",
+      "primaryKeyPattern": "${date}_${period}",
+      "aclTag": "ADMINONLY",
+      "securityRule": {
+        "read": false,
+        "write": false
+      },
+      "indexes": [
+        {
+          "name": "idx_period_date_desc",
+          "unique": false,
+          "keys": [
+            { "name": "period", "direction": "1" },
+            { "name": "date", "direction": "-1" }
+          ],
+          "purpose": "查询最新期刊及最近 14 期 availableDates"
+        },
+        {
+          "name": "uniq_period_issueNo_desc",
+          "unique": true,
+          "keys": [
+            { "name": "period", "direction": "1" },
+            { "name": "issueNo", "direction": "-1" }
+          ],
+          "purpose": "入库时快速获取当前周期最大 issueNo 并保证同周期期号唯一"
+        }
+      ]
+    },
+    {
+      "collectionName": "repos",
+      "description": "GitHub 热门仓库档案与 AI 中文速览，主键 _id 为 `${owner}__${name}`（全小写）",
+      "primaryKeyPattern": "${owner}__${name}",
+      "aclTag": "ADMINONLY",
+      "securityRule": {
+        "read": false,
+        "write": false
+      },
+      "indexes": [
+        {
+          "name": "idx_category_latestDate_desc",
+          "unique": false,
+          "keys": [
+            { "name": "category", "direction": "1" },
+            { "name": "latestDate", "direction": "-1" }
+          ],
+          "purpose": "发现页按分类检索与最新排序"
+        },
+        {
+          "name": "idx_starsToday_desc",
+          "unique": false,
+          "keys": [
+            { "name": "starsToday", "direction": "-1" }
+          ],
+          "purpose": "按本期新增 Star 降序排序"
+        },
+        {
+          "name": "idx_latestDate_starsToday_desc",
+          "unique": false,
+          "keys": [
+            { "name": "latestDate", "direction": "-1" },
+            { "name": "starsToday", "direction": "-1" }
+          ],
+          "purpose": "发现页默认排序（按最近上榜日期与今日增速降序）"
+        }
+      ]
+    },
+    {
+      "collectionName": "user_bookmarks",
+      "description": "用户云端收藏记录，主键 _id 自动生成，按微信 OPENID 隔离",
+      "primaryKeyPattern": "auto",
+      "aclTag": "ADMINONLY",
+      "securityRule": {
+        "read": false,
+        "write": false
+      },
+      "indexes": [
+        {
+          "name": "uniq_openid_repoId",
+          "unique": true,
+          "keys": [
+            { "name": "openid", "direction": "1" },
+            { "name": "repoId", "direction": "1" }
+          ],
+          "purpose": "防止同一用户重复收藏同一仓库，加速收藏态批量判断"
+        },
+        {
+          "name": "idx_openid_createdAt_desc",
+          "unique": false,
+          "keys": [
+            { "name": "openid", "direction": "1" },
+            { "name": "createdAt", "direction": "-1" }
+          ],
+          "purpose": "「我的」页按收藏时间倒序分页拉取个人收藏夹"
+        }
+      ]
+    },
+    {
+      "collectionName": "push_subscriptions",
+      "description": "微信一次性订阅消息额度与偏好配置，主键 _id 为用户 OPENID",
+      "primaryKeyPattern": "${openid}",
+      "aclTag": "ADMINONLY",
+      "securityRule": {
+        "read": false,
+        "write": false
+      },
+      "indexes": [
+        {
+          "name": "idx_remainingCount_lastPushedDate",
+          "unique": false,
+          "keys": [
+            { "name": "remainingCount", "direction": "1" },
+            { "name": "lastPushedDate", "direction": "1" }
+          ],
+          "purpose": "每日 08:30 定时推送分批筛选有剩余额度且当日未推送的用户"
+        }
+      ]
+    },
+    {
+      "collectionName": "moderation_pending",
+      "aclTag": "ADMINONLY",
+      "securityRule": {
+        "read": false,
+        "write": false
+      },
+      "indexes": [
+        {
+          "name": "idx_moderation_date",
+          "unique": false,
+          "keys": [
+            {
+              "name": "date",
+              "direction": "-1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.temp/
+.cache/
+.swc/
+crawler/dist/
+crawler/output/
+*.zip
+
+# Local environment & secrets
+.env
+.env.local
+.env.*.local
+miniprogram/project.private.config.json
+
+# OS & logs
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,85 @@
+@use "./styles/tokens.scss";
+
+page,
+body {
+  background-color: #f7f6f2;
+  color: #14171a;
+  font-family: var(--gp-font-sans);
+  font-size: 28px;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep focused elements clear of fixed bottom bars on H5 */
+html {
+  scroll-padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  background-color: #f7f6f2;
+}
+
+view,
+text,
+button,
+input,
+scroll-view {
+  box-sizing: border-box;
+}
+
+button::after {
+  border: none;
+}
+
+.gp-tabular {
+  font-family: var(--gp-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Desktop H5 framing: keep crisp mobile editorial column on wide screens */
+/* #ifdef h5 */
+taro-scroll-view-core {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+taro-scroll-view-core::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+@media (min-width: 431px) {
+  html {
+    font-size: 22.8px !important;
+  }
+
+  body {
+    background-color: #ebe8df;
+  }
+
+  #app {
+    max-width: 430px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background-color: #f7f6f2;
+    box-shadow: 0 0 0 1px rgba(20, 23, 26, 0.08), 0 18px 48px rgba(20, 23, 26, 0.08);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .taro-tabbar__tabbar {
+    max-width: 430px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    border-top: 1px solid #e8e6df;
+    background-color: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px);
+  }
+}
+
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible {
+  outline: 2px solid #0b7a43;
+  outline-offset: 2px;
+}
+/* #endif */

@@ -1,0 +1,12 @@
+{
+  "name": "gitpulse-send-daily-push",
+  "version": "1.0.0",
+  "description": "GitPulse scheduled cloud function (08:30 CST daily) to send WeChat one-time subscribe messages in batches",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

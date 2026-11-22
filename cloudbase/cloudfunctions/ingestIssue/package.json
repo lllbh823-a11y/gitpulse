@@ -1,0 +1,12 @@
+{
+  "name": "gitpulse-ingest-issue",
+  "version": "1.0.0",
+  "description": "GitPulse HTTP-triggered cloud function to verify HMAC-SHA256 signature and idempotently ingest daily/weekly GitHub Trending issues",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

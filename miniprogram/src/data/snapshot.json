@@ -1,0 +1,548 @@
+{
+  "generatedAt": "2026-11-22T07:35:00+08:00",
+  "availableDates": ["2026-11-22", "2026-11-21"],
+  "issues": {
+    "2026-11-22_daily": {
+      "_id": "2026-11-22_daily",
+      "date": "2026-11-22",
+      "period": "daily",
+      "issueNo": 42,
+      "summary": "今日 AI Agent 编排与端侧推理工具领跑榜单，轻量级浏览器自动化与极简 UI 引擎热度飙升。",
+      "topCategory": "ai-agent",
+      "repoIds": [
+        "openai__codex-orchestrator",
+        "browser-use__browser-use",
+        "vllm-project__vllm-omni",
+        "shadcn-ui__ui-v4",
+        "astral-sh__uv",
+        "deepseek-ai__flash-mla",
+        "duckdb__ducklake",
+        "zed-industries__zed",
+        "excalidraw__excalidraw",
+        "biomejs__biome"
+      ],
+      "publishedAt": "2026-11-22T07:35:00+08:00"
+    },
+    "2026-11-22_weekly": {
+      "_id": "2026-11-22_weekly",
+      "date": "2026-11-22",
+      "period": "weekly",
+      "issueNo": 42,
+      "summary": "本周开源焦点集中在多智能体工作流、本地多模态推理加速与 Rust 重写的下一代前端工具链。",
+      "topCategory": "ai-agent",
+      "repoIds": [
+        "browser-use__browser-use",
+        "astral-sh__uv",
+        "vllm-project__vllm-omni",
+        "openai__codex-orchestrator",
+        "deepseek-ai__flash-mla",
+        "shadcn-ui__ui-v4",
+        "oven-sh__bun",
+        "ollama__ollama-edge"
+      ],
+      "publishedAt": "2026-11-22T07:35:00+08:00"
+    },
+    "2026-11-21_daily": {
+      "_id": "2026-11-21_daily",
+      "date": "2026-11-21",
+      "period": "daily",
+      "issueNo": 41,
+      "summary": "昨日开发者基础设施全面爆发，高性能本地数据库、零配置全栈运行时与轻量终端工具强势上榜。",
+      "topCategory": "dev-tools",
+      "repoIds": [
+        "oven-sh__bun",
+        "ollama__ollama-edge",
+        "tailwindlabs__tailwindcss",
+        "supabase__postgres-meta",
+        "mermaid-js__mermaid-live",
+        "rustdesk__rustdesk",
+        "astral-sh__uv",
+        "duckdb__ducklake"
+      ],
+      "publishedAt": "2026-11-21T07:35:00+08:00"
+    },
+    "2026-11-21_weekly": {
+      "_id": "2026-11-21_weekly",
+      "date": "2026-11-21",
+      "period": "weekly",
+      "issueNo": 41,
+      "summary": "过去一周端侧模型压缩、边缘 SQL 引擎与高性能 CSS 工具链成为社区 Star 增长主力。",
+      "topCategory": "open-models",
+      "repoIds": [
+        "ollama__ollama-edge",
+        "oven-sh__bun",
+        "tailwindlabs__tailwindcss",
+        "supabase__postgres-meta",
+        "rustdesk__rustdesk",
+        "mermaid-js__mermaid-live"
+      ],
+      "publishedAt": "2026-11-21T07:35:00+08:00"
+    }
+  },
+  "repos": {
+    "openai__codex-orchestrator": {
+      "_id": "openai__codex-orchestrator",
+      "fullName": "openai/codex-orchestrator",
+      "owner": "openai",
+      "name": "codex-orchestrator",
+      "url": "https://github.com/openai/codex-orchestrator",
+      "description": "Lightweight multi-agent task graph runner with sandboxed git worktrees and deterministic review gates.",
+      "language": "TypeScript",
+      "languageColor": "#3178C6",
+      "stars": 18420,
+      "starsToday": 1640,
+      "forks": 1290,
+      "license": "Apache-2.0",
+      "category": "ai-agent",
+      "tags": ["多智能体", "Worktree", "工程自动化"],
+      "ai": {
+        "tagline": "基于 Git Worktree 沙箱的多 Agent 并行编码编排器",
+        "whyHot": "解决了多 AI 代理并发改代码互相覆盖的顽疾，自带确定性测试闸门与合并前自动审查，大幅缩短大型仓库重构周期。",
+        "highlights": [
+          "按模块自动隔离 Git Worktree，多代理并发无文件锁冲突",
+          "内置可编排验证流，测试未通过禁止进入主分支合并队列",
+          "支持任意 OpenAI 兼容模型后端，本地与 CI 均可一键复现"
+        ],
+        "targetAudience": "中大型代码库负责人、重度使用 AI 编程的研发团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "browser-use__browser-use": {
+      "_id": "browser-use__browser-use",
+      "fullName": "browser-use/browser-use",
+      "owner": "browser-use",
+      "name": "browser-use",
+      "url": "https://github.com/browser-use/browser-use",
+      "description": "Make websites accessible for AI agents with structured DOM perception and resilient multi-tab execution.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 62350,
+      "starsToday": 1380,
+      "forks": 6840,
+      "license": "MIT",
+      "category": "ai-agent",
+      "tags": ["浏览器代理", "自动化", "Playwright"],
+      "ai": {
+        "tagline": "让大模型像人类一样看懂并操作任意网页的浏览器代理框架",
+        "whyHot": "新版将视觉标注与无障碍 DOM 树融合，Token 消耗降低 55%，同时支持长链路多标签页任务断点续跑。",
+        "highlights": [
+          "混合 DOM 语义提取与视觉坐标定位，复杂 SPA 页面操作更稳",
+          "原生支持登录态复用、文件上传下载与任务执行录像回放",
+          "开箱即用适配 Playwright，几行 Python 即可接入自定义工具"
+        ],
+        "targetAudience": "自动化测试工程师、RPA 开发者与 AI Agent 创业团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "vllm-project__vllm-omni": {
+      "_id": "vllm-project__vllm-omni",
+      "fullName": "vllm-project/vllm-omni",
+      "owner": "vllm-project",
+      "name": "vllm-omni",
+      "url": "https://github.com/vllm-project/vllm-omni",
+      "description": "High-throughput multimodal serving engine for unified text, vision, and real-time audio models.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 24890,
+      "starsToday": 1120,
+      "forks": 2150,
+      "license": "Apache-2.0",
+      "category": "open-models",
+      "tags": ["推理引擎", "多模态", "低延迟"],
+      "ai": {
+        "tagline": "支持文本、视觉与实时语音一体化的高吞吐多模态推理引擎",
+        "whyHot": "延续 PagedAttention 显存管理优势，首次将流式音视频输入与大语言模型生成统一到同一调度管线，显存利用率翻倍。",
+        "highlights": [
+          "端到端语音对话首字延迟压至 280ms 内，支持流式打断",
+          "跨模态 KV Cache 复用技术，显著降低长视频理解推理成本",
+          "完全兼容 OpenAI Realtime 与 Chat Completions 接口规范"
+        ],
+        "targetAudience": "AI 基础设施工程师、多模态实时交互产品团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "shadcn-ui__ui-v4": {
+      "_id": "shadcn-ui__ui-v4",
+      "fullName": "shadcn-ui/ui-v4",
+      "owner": "shadcn-ui",
+      "name": "ui-v4",
+      "url": "https://github.com/shadcn-ui/ui-v4",
+      "description": "Accessible, zero-runtime-overhead component registry built on native Popover, Anchor Positioning, and CSS layers.",
+      "language": "TypeScript",
+      "languageColor": "#3178C6",
+      "stars": 89410,
+      "starsToday": 965,
+      "forks": 6120,
+      "license": "MIT",
+      "category": "frontend",
+      "tags": ["组件库", "无障碍", "现代 CSS"],
+      "ai": {
+        "tagline": "拥抱原生 Popover 与 Anchor 定位的新一代无障碍组件源码库",
+        "whyHot": "摆脱繁重的 JS 浮层定位依赖，直接用现代浏览器原生能力重写下拉、弹窗与侧边栏，包体缩减近 40%。",
+        "highlights": [
+          "源码直接拷贝入仓，零黑盒依赖，设计 Token 一键全局换肤",
+          "全面通过 WCAG 2.2 键盘焦点与屏幕阅读器无障碍校验",
+          "配套 CLI 支持按需拉取区块模板与自动增量合并更新"
+        ],
+        "targetAudience": "前端工程师、独立开发者与设计系统维护者",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "astral-sh__uv": {
+      "_id": "astral-sh__uv",
+      "fullName": "astral-sh/uv",
+      "owner": "astral-sh",
+      "name": "uv",
+      "url": "https://github.com/astral-sh/uv",
+      "description": "An extremely fast Python package and project manager, written in Rust.",
+      "language": "Rust",
+      "languageColor": "#DEA584",
+      "stars": 57200,
+      "starsToday": 890,
+      "forks": 1680,
+      "license": "MIT",
+      "category": "dev-tools",
+      "tags": ["Python", "包管理", "Rust"],
+      "ai": {
+        "tagline": "用 Rust 打造的极速 Python 包与虚拟环境一体化管理器",
+        "whyHot": "依赖解析与安装速度比传统 pip/poetry 快 10~100 倍，最新工作区锁定与单文件脚本依赖管理成为社区事实标准。",
+        "highlights": [
+          "单二进制统一替代 pip、pip-tools、virtualenv 与 pyenv",
+          "跨平台确定性锁文件 uv.lock，CI 缓存命中后秒级构建",
+          "支持内联脚本元数据自动拉取依赖，零污染运行一次性脚本"
+        ],
+        "targetAudience": "所有 Python 开发者、数据科学与 AI 工程团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "deepseek-ai__flash-mla": {
+      "_id": "deepseek-ai__flash-mla",
+      "fullName": "deepseek-ai/flash-mla",
+      "owner": "deepseek-ai",
+      "name": "flash-mla",
+      "url": "https://github.com/deepseek-ai/flash-mla",
+      "description": "Efficient Multi-Head Latent Attention decoding kernels optimized for variable-length sequences on modern GPUs.",
+      "language": "CUDA",
+      "languageColor": "#3A4E3A",
+      "stars": 19650,
+      "starsToday": 845,
+      "forks": 1410,
+      "license": "MIT",
+      "category": "open-models",
+      "tags": ["CUDA 算子", "MLA", "性能优化"],
+      "ai": {
+        "tagline": "面向长上下文推理极限压榨显存带宽的开源 MLA 解码算子",
+        "whyHot": "将多头潜在注意力（MLA）在变长序列下的 GPU 带宽利用率推至 3000 GB/s 级别，开源社区争相集成进自研推理引擎。",
+        "highlights": [
+          "针对 BF16 与 FP8 混合精度深度手写内核，算力吞吐大幅跃升",
+          "分页 KV Cache 粒度达 64，显著减少长文本并发时的显存碎片",
+          "代码结构克制清晰，极佳的 GPU 底层算子工程学习范本"
+        ],
+        "targetAudience": "大模型推理框架开发者、CUDA/算子性能调优工程师",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "duckdb__ducklake": {
+      "_id": "duckdb__ducklake",
+      "fullName": "duckdb/ducklake",
+      "owner": "duckdb",
+      "name": "ducklake",
+      "url": "https://github.com/duckdb/ducklake",
+      "description": "SQL-native lakehouse format storing catalog metadata in standard relational databases with Parquet data files.",
+      "language": "C++",
+      "languageColor": "#F34B7D",
+      "stars": 14320,
+      "starsToday": 730,
+      "forks": 520,
+      "license": "MIT",
+      "category": "backend-infra",
+      "tags": ["数据湖", "SQL", "Parquet"],
+      "ai": {
+        "tagline": "用标准关系库管元数据、Parquet 存数据的极简湖仓新格式",
+        "whyHot": "正面挑战 Iceberg 的复杂度，去掉漫天飞舞的 JSON 清单文件，让中小团队也能用熟悉 SQL 实现 ACID 事务与时间旅行。",
+        "highlights": [
+          "元数据直接落盘 Postgres/SQLite，告别目录扫描延迟瓶颈",
+          "天然支持跨表原子事务、Schema 演进与历史版本秒级回滚",
+          "与 DuckDB 深度集成，笔记本电脑即可流畅分析 TB 级对象存储"
+        ],
+        "targetAudience": "数据工程师、分析型后端开发与精益数据团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "zed-industries__zed": {
+      "_id": "zed-industries__zed",
+      "fullName": "zed-industries/zed",
+      "owner": "zed-industries",
+      "name": "zed",
+      "url": "https://github.com/zed-industries/zed",
+      "description": "High-performance, multiplayer code editor written in Rust with GPU-accelerated rendering and native agent panels.",
+      "language": "Rust",
+      "languageColor": "#DEA584",
+      "stars": 64900,
+      "starsToday": 615,
+      "forks": 5120,
+      "license": "GPL-3.0",
+      "category": "dev-tools",
+      "tags": ["代码编辑器", "GPU 渲染", "多人协作"],
+      "ai": {
+        "tagline": "Rust + GPU 驱动的 120fps 极速协作代码编辑器",
+        "whyHot": "正式发布 Windows 稳定版并内置轻量 Agent 上下文工作台，启动和跳转大仓库的速度让不少重度 VS Code 用户开始迁移。",
+        "highlights": [
+          "原生 GPU 渲染管线，百万行文件滚动与搜索零卡顿",
+          "内置毫秒级低延迟语音+代码同屏结对编程体验",
+          "支持通过 MCP 协议接入外部工具与自定义本地模型补全"
+        ],
+        "targetAudience": "追求极致响应速度的全栈开发者、Rust/Go/TS 工程师",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "excalidraw__excalidraw": {
+      "_id": "excalidraw__excalidraw",
+      "fullName": "excalidraw/excalidraw",
+      "owner": "excalidraw",
+      "name": "excalidraw",
+      "url": "https://github.com/excalidraw/excalidraw",
+      "description": "Virtual whiteboard for sketching hand-drawn like diagrams with end-to-end encrypted real-time collaboration.",
+      "language": "TypeScript",
+      "languageColor": "#3178C6",
+      "stars": 103400,
+      "starsToday": 520,
+      "forks": 10200,
+      "license": "MIT",
+      "category": "frontend",
+      "tags": ["手绘白板", "架构图", "端到端加密"],
+      "ai": {
+        "tagline": "开源手绘风技术架构白板，支持端到端加密实时协作",
+        "whyHot": "新增原生文本转架构图和帧动画演示模式，技术博客、RFC 文档与团队头脑风暴几乎人手必备。",
+        "highlights": [
+          "零登录即可发起加密协作房间，离线 PWA 自动保存草稿",
+          "支持 Mermaid 语法一键转手绘可编辑矢量图形",
+          "提供独立 React 组件包，轻松嵌入自有文档或知识库系统"
+        ],
+        "targetAudience": "技术架构师、产品经理与需要高频画图的研发人员",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "biomejs__biome": {
+      "_id": "biomejs__biome",
+      "fullName": "biomejs/biome",
+      "owner": "biomejs",
+      "name": "biome",
+      "url": "https://github.com/biomejs/biome",
+      "description": "One toolchain for your web project: fast formatter, linter, and type-aware static analyzer in Rust.",
+      "language": "Rust",
+      "languageColor": "#DEA584",
+      "stars": 21800,
+      "starsToday": 440,
+      "forks": 780,
+      "license": "MIT",
+      "category": "other",
+      "tags": ["Lint", "格式化", "前端基建"],
+      "ai": {
+        "tagline": "Rust 编写的前端代码格式化与静态检查一体化工具链",
+        "whyHot": "One toolchain for your web project: fast formatter, linter, and type-aware static analyzer in Rust.",
+        "highlights": [
+          "单工具同时替代 Prettier 与 ESLint，配置项精简直观",
+          "支持 HTML / CSS / JS / TS / JSON 的毫秒级增量校验",
+          "提供面向 Monorepo 的嵌套配置继承与精准诊断提示"
+        ],
+        "targetAudience": "前端工程化负责人与追求快速 CI 反馈的 Web 团队",
+        "aiStatus": "fallback"
+      },
+      "latestDate": "2026-11-22",
+      "updatedAt": "2026-11-22T07:32:00+08:00"
+    },
+    "oven-sh__bun": {
+      "_id": "oven-sh__bun",
+      "fullName": "oven-sh/bun",
+      "owner": "oven-sh",
+      "name": "bun",
+      "url": "https://github.com/oven-sh/bun",
+      "description": "Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one.",
+      "language": "Zig",
+      "languageColor": "#EC915C",
+      "stars": 81600,
+      "starsToday": 910,
+      "forks": 3450,
+      "license": "MIT",
+      "category": "dev-tools",
+      "tags": ["JS 运行时", "Zig", "全能工具链"],
+      "ai": {
+        "tagline": "集运行时、打包器、测试与包管理于一身的超快 JS 工具链",
+        "whyHot": "内置原生 S3/SQL/Redis 客户端与更完整的 Node.js 兼容层，单二进制部署全栈 TS 服务越来越省心。",
+        "highlights": [
+          "冷启动速度极快，非常适合 CLI 工具与 Serverless 函数场景",
+          "无需配置即可直接运行 TypeScript、JSX 与兼容 Jest 的单元测试",
+          "支持将全栈项目编译成单个独立可执行文件分发"
+        ],
+        "targetAudience": "TypeScript 全栈开发者、CLI 作者与边缘计算团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    },
+    "ollama__ollama-edge": {
+      "_id": "ollama__ollama-edge",
+      "fullName": "ollama/ollama-edge",
+      "owner": "ollama",
+      "name": "ollama-edge",
+      "url": "https://github.com/ollama/ollama-edge",
+      "description": "Run quantized open-weight LLMs and vision models locally on laptops, phones, and edge boards with zero setup.",
+      "language": "Go",
+      "languageColor": "#00ADD8",
+      "stars": 29400,
+      "starsToday": 810,
+      "forks": 1820,
+      "license": "MIT",
+      "category": "open-models",
+      "tags": ["本地大模型", "端侧量化", "离线隐私"],
+      "ai": {
+        "tagline": "零配置在笔记本与边缘设备离线运行量化大模型的轻量引擎",
+        "whyHot": "针对 4-bit 视觉语言模型与 NPU 加速做了深度优化，8GB 内存设备也能流畅跑通本地文档问答与代码补全。",
+        "highlights": [
+          "自动探测 Metal / Vulkan / DirectML 硬件后端，免手工编译",
+          "支持结构化 JSON 输出约束与并发多模型按需热加载",
+          "完全本地运行，敏感代码与企业文档无需离开内网"
+        ],
+        "targetAudience": "注重数据隐私的个人开发者、离线 AI 应用构建者",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    },
+    "tailwindlabs__tailwindcss": {
+      "_id": "tailwindlabs__tailwindcss",
+      "fullName": "tailwindlabs/tailwindcss",
+      "owner": "tailwindlabs",
+      "name": "tailwindcss",
+      "url": "https://github.com/tailwindlabs/tailwindcss",
+      "description": "A utility-first CSS framework powered by Oxide engine for rapid modern UI development.",
+      "language": "Rust",
+      "languageColor": "#DEA584",
+      "stars": 91200,
+      "starsToday": 640,
+      "forks": 4720,
+      "license": "MIT",
+      "category": "frontend",
+      "tags": ["CSS 框架", "Oxide", "设计系统"],
+      "ai": {
+        "tagline": "由 Rust Oxide 引擎驱动的原子化 CSS 框架",
+        "whyHot": "v4 全面拥抱原生 CSS 变量与零配置主题声明，增量构建耗时压缩到微秒级，与现代容器查询完美契合。",
+        "highlights": [
+          "无需繁琐 JS 配置文件，直接在 CSS 内通过 @theme 定义设计令牌",
+          "内置容器查询、3D 变换与宽色域 P3 色彩工具类",
+          "自动扫描源码按需产出极简 CSS，线上样式体积可控"
+        ],
+        "targetAudience": "前端开发者、UI 工程师与快速原型设计团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    },
+    "supabase__postgres-meta": {
+      "_id": "supabase__postgres-meta",
+      "fullName": "supabase/postgres-meta",
+      "owner": "supabase",
+      "name": "postgres-meta",
+      "url": "https://github.com/supabase/postgres-meta",
+      "description": "RESTful API and schema introspection toolkit for managing PostgreSQL databases cleanly.",
+      "language": "TypeScript",
+      "languageColor": "#3178C6",
+      "stars": 9850,
+      "starsToday": 530,
+      "forks": 610,
+      "license": "Apache-2.0",
+      "category": "backend-infra",
+      "tags": ["PostgreSQL", "Schema 管理", "数据库工具"],
+      "ai": {
+        "tagline": "面向 PostgreSQL 的元数据内省与自动化管理接口工具集",
+        "whyHot": "AI 数据库助手与低代码管理台爆火后，该项目成为给 Agent 提供安全只读 Schema 视图的首选底层组件。",
+        "highlights": [
+          "标准化暴露表结构、索引、RLS 策略与触发器元信息",
+          "一键生成精准 TypeScript 类型定义，前后端字段零漂移",
+          "轻量容器化部署，可无缝衔接自建或云托管 Postgres"
+        ],
+        "targetAudience": "后端架构师、BaaS 开发者与 AI SQL 工具构建者",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    },
+    "mermaid-js__mermaid-live": {
+      "_id": "mermaid-js__mermaid-live",
+      "fullName": "mermaid-js/mermaid-live",
+      "owner": "mermaid-js",
+      "name": "mermaid-live",
+      "url": "https://github.com/mermaid-js/mermaid-live",
+      "description": "Live visual diagramming studio turning markdown-like syntax into crisp architecture and sequence charts.",
+      "language": "TypeScript",
+      "languageColor": "#3178C6",
+      "stars": 16400,
+      "starsToday": 410,
+      "forks": 1490,
+      "license": "MIT",
+      "category": "other",
+      "tags": ["图表工具", "Markdown", "文档可视化"],
+      "ai": {
+        "tagline": "用纯文本语法实时生成高颜值架构图与时序图的在线工作台",
+        "whyHot": "新增手绘风格渲染引擎与 Elk 自动防重叠布局，配合大模型自动生成系统设计图效率极高。",
+        "highlights": [
+          "支持流程图、时序图、ER 图与状态机，纯文本易做 Git Diff",
+          "内置高分辨率 SVG/PNG 导出与深浅双主题一键切换",
+          "支持私有化 Docker 一键部署，内网文档画图零泄露"
+        ],
+        "targetAudience": "研发文档作者、系统设计师与技术演讲准备者",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    },
+    "rustdesk__rustdesk": {
+      "_id": "rustdesk__rustdesk",
+      "fullName": "rustdesk/rustdesk",
+      "owner": "rustdesk",
+      "name": "rustdesk",
+      "url": "https://github.com/rustdesk/rustdesk",
+      "description": "An open-source remote desktop application designed for self-hosting with low-latency video streaming.",
+      "language": "Rust",
+      "languageColor": "#DEA584",
+      "stars": 94300,
+      "starsToday": 395,
+      "forks": 13500,
+      "license": "AGPL-3.0",
+      "category": "backend-infra",
+      "tags": ["远程桌面", "自托管", "Rust"],
+      "ai": {
+        "tagline": "可私有部署的高帧率开源远程桌面工具，平替商业远控软件",
+        "whyHot": "商业远控软件持续收紧免费额度，RustDesk 凭借低延迟硬件编码与 5 分钟自建中继服务持续领跑。",
+        "highlights": [
+          "全平台覆盖 Windows / macOS / Linux / iOS / Android",
+          "支持自托管 ID 与中继服务器，连接全程端到端加密",
+          "极简内存占用，弱网环境下仍能保持清晰操作响应"
+        ],
+        "targetAudience": "运维工程师、家庭 NAS 玩家与远程办公团队",
+        "aiStatus": "ok"
+      },
+      "latestDate": "2026-11-21",
+      "updatedAt": "2026-11-21T07:32:00+08:00"
+    }
+  }
+}

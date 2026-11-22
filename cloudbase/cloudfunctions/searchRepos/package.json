@@ -1,0 +1,12 @@
+{
+  "name": "gitpulse-search-repos",
+  "version": "1.0.0",
+  "description": "GitPulse cloud function for keyword, category, and language paginated search across ingested repositories",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

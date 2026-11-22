@@ -1,0 +1,104 @@
+{
+  "version": "2.0",
+  "envId": "{{env.CLOUDBASE_ENV_ID}}",
+  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+  "functionRoot": "./cloudfunctions",
+  "functions": [
+    {
+      "name": "ingestIssue",
+      "runtime": "Nodejs18.15",
+      "timeout": 20,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ],
+      "envVariables": {
+        "MSG_SEC_CHECK_OPENID": "{{env.MSG_SEC_CHECK_OPENID}}",
+        "INGEST_SECRET": "{{env.INGEST_SECRET}}"
+      }
+    },
+    {
+      "name": "getDailyIssue",
+      "runtime": "Nodejs18.15",
+      "timeout": 10,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ],
+      "envVariables": {
+        "SUBSCRIBE_TEMPLATE_ID": "{{env.SUBSCRIBE_TEMPLATE_ID}}"
+      }
+    },
+    {
+      "name": "searchRepos",
+      "runtime": "Nodejs18.15",
+      "timeout": 10,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ]
+    },
+    {
+      "name": "bookmark",
+      "runtime": "Nodejs18.15",
+      "timeout": 10,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ]
+    },
+    {
+      "name": "subscription",
+      "runtime": "Nodejs18.15",
+      "timeout": 10,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ],
+      "envVariables": {
+        "SUBSCRIBE_TEMPLATE_ID": "{{env.SUBSCRIBE_TEMPLATE_ID}}"
+      }
+    },
+    {
+      "name": "sendDailyPush",
+      "runtime": "Nodejs18.15",
+      "timeout": 60,
+      "memorySize": 256,
+      "handler": "index.main",
+      "ignore": [
+        "*.md",
+        "node_modules",
+        "node_modules/**/*"
+      ],
+      "envVariables": {
+        "SUBSCRIBE_TEMPLATE_ID": "{{env.SUBSCRIBE_TEMPLATE_ID}}",
+        "PUSH_KEY_TITLE": "thing1",
+        "PUSH_KEY_DESC": "thing2",
+        "PUSH_KEY_DATE": "time3",
+        "MINIPROGRAM_STATE": "formal"
+      },
+      "triggers": [
+        {
+          "name": "dailyPushTrigger",
+          "type": "timer",
+          "config": "0 30 8 * * * *"
+        }
+      ]
+    }
+  ]
+}

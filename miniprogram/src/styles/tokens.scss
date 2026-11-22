@@ -1,0 +1,35 @@
+/* GitPulse Editorial Tech Digest Design Tokens */
+
+page,
+:root {
+  --gp-bg-canvas: #f7f6f2;
+  --gp-bg-surface: #ffffff;
+  --gp-bg-subtle: #efece4;
+  --gp-bg-elevated: #fcfbf8;
+
+  --gp-border: #e8e6df;
+  --gp-border-strong: #d5d1c5;
+
+  --gp-text-primary: #14171a;
+  --gp-text-secondary: #5a626a;
+  --gp-text-muted: #767f88;
+
+  --gp-accent: #0f9d58;
+  --gp-accent-soft: #e8f7ef;
+  --gp-accent-dark: #0b7a43;
+
+  --gp-gold: #d97706;
+  --gp-gold-soft: #fef3c7;
+  --gp-gold-dark: #b45309;
+
+  --gp-danger: #dc2626;
+  --gp-danger-soft: #fee2e2;
+
+  --gp-radius-sm: 12px;
+  --gp-radius-md: 20px;
+  --gp-radius-lg: 28px;
+  --gp-radius-pill: 999px;
+
+  --gp-font-sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+  --gp-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
