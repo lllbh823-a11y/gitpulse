@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/weapp/",
   "projectname": "gitpulse-miniprogram",
   "description": "GitPulse 开源每日脉搏 - GitHub 热门项目每日精选与 AI 中文速览",
-  "appid": "wxc9c4e0aa9fb9fb01",
+  "appid": "wx9422ec82738307a0",
   "setting": {
     "urlCheck": true,
     "es6": false,

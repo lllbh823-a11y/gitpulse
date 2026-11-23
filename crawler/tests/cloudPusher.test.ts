@@ -146,4 +146,58 @@ describe('cloudPusher', () => {
     expect(flakyFetch).toHaveBeenCalledTimes(2);
     expect(recovered.issueNo).toBe(1);
   });
+
+  it('supports CloudBase HTTP API gateway envelope with Bearer token and HTTP 200 code 422', async () => {
+    const secret = 'gateway-secret';
+    let capturedHeaders: Record<string, string> = {};
+    let capturedBody = '';
+
+    const gatewayFetch = vi.fn<typeof fetch>(async (_url, init) => {
+      capturedHeaders = (init?.headers ?? {}) as Record<string, string>;
+      capturedBody = String(init?.body ?? '');
+      return new Response(
+        JSON.stringify({
+          code: 0,
+          message: 'ok',
+          data: { issueId: '2026-11-22_daily', issueNo: 1, upsertedRepos: 1 },
+        }),
+        { status: 200, headers: { 'content-type': 'application/json' } },
+      );
+    });
+
+    const res = await pushIssueToCloud(SAMPLE_INGEST_PAYLOAD, {
+      ingestUrl: 'https://cloud1-demo.api.tcloudbasegateway.com/v1/functions/ingestIssue',
+      ingestSecret: secret,
+      apiKey: 'test-api-key-jwt',
+      nowSeconds: () => 1795321234,
+      fetchImpl: gatewayFetch,
+    });
+
+    expect(res.issueNo).toBe(1);
+    expect(capturedHeaders.Authorization).toBe('Bearer test-api-key-jwt');
+    expect(capturedHeaders['x-gitpulse-signature']).toBeUndefined();
+
+    const envelope = JSON.parse(capturedBody) as {
+      headers: Record<string, string>;
+      rawBody: string;
+    };
+    expect(envelope.headers['x-gitpulse-timestamp']).toBe('1795321234');
+    expect(envelope.headers['x-gitpulse-signature']).toBe(
+      computeHmacSignature('1795321234', envelope.rawBody, secret),
+    );
+    expect(JSON.parse(envelope.rawBody)).toEqual(SAMPLE_INGEST_PAYLOAD);
+
+    const filteredGatewayFetch = vi.fn<typeof fetch>(async () =>
+      new Response(JSON.stringify({ code: 422, message: 'filtered' }), { status: 200 }),
+    );
+    await expect(
+      pushIssueToCloud(SAMPLE_INGEST_PAYLOAD, {
+        ingestUrl: 'https://cloud1-demo.api.tcloudbasegateway.com/v1/functions/ingestIssue',
+        ingestSecret: secret,
+        apiKey: 'test-api-key-jwt',
+        fetchImpl: filteredGatewayFetch,
+      }),
+    ).rejects.toThrow(/复核/);
+    expect(filteredGatewayFetch).toHaveBeenCalledTimes(1);
+  });
 });

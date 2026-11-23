@@ -14,11 +14,16 @@ export interface SignedHeaders {
 export interface CloudPushOptions {
   ingestUrl: string;
   ingestSecret: string;
+  apiKey?: string;
   timeoutMs?: number;
   maxRetries?: number;
   retryDelayMs?: number;
   nowSeconds?: () => number;
   fetchImpl?: typeof fetch;
+}
+
+export function isCloudBaseGatewayUrl(url: string): boolean {
+  return /\.tcloudbasegateway\.com\/v1\/functions\//i.test(url.trim());
 }
 
 export function computeHmacSignature(
@@ -56,7 +61,8 @@ export async function pushIssueToCloud(
   const {
     ingestUrl,
     ingestSecret,
-    timeoutMs = 20_000,
+    apiKey,
+    timeoutMs = 60_000,
     maxRetries = 2,
     retryDelayMs = 1_000,
     nowSeconds = () => Math.floor(Date.now() / 1000),
@@ -70,21 +76,41 @@ export async function pushIssueToCloud(
     throw new Error('INGEST_SECRET is required');
   }
 
+  const useGatewayEnvelope = isCloudBaseGatewayUrl(ingestUrl);
+  const bearerToken = apiKey?.trim() || '';
+  if (useGatewayEnvelope && !bearerToken) {
+    throw new Error('CLOUDBASE_API_KEY is required when using CloudBase HTTP API gateway');
+  }
+
   const rawBody = JSON.stringify(payload);
   let lastError: unknown;
 
   for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
     const signedHeaders = createSignedHeaders(rawBody, ingestSecret, nowSeconds());
+    const requestHeaders: Record<string, string> = {
+      'Content-Type': 'application/json; charset=utf-8',
+      Accept: 'application/json',
+    };
+    if (bearerToken) {
+      requestHeaders.Authorization = `Bearer ${bearerToken}`;
+    }
+    const requestBody = useGatewayEnvelope
+      ? JSON.stringify({
+          headers: signedHeaders,
+          rawBody,
+        })
+      : rawBody;
+    if (!useGatewayEnvelope) {
+      Object.assign(requestHeaders, signedHeaders);
+    }
+
     try {
       const response = await fetchWithTimeout(
         ingestUrl,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            ...signedHeaders,
-          },
-          body: rawBody,
+          headers: requestHeaders,
+          body: requestBody,
         },
         timeoutMs,
         fetchImpl,
@@ -98,7 +124,7 @@ export async function pushIssueToCloud(
         parsed = null;
       }
 
-      if (response.status === 422 && parsed?.code === 422) {
+      if (parsed?.code === 422) {
         throw new IssueFilteredError('本期全部项目被拦截或等待复核');
       }
       if (!response.ok) {

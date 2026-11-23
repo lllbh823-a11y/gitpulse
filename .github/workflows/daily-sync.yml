@@ -74,6 +74,7 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           CLOUDBASE_INGEST_URL: ${{ secrets.CLOUDBASE_INGEST_URL }}
+          CLOUDBASE_API_KEY: ${{ secrets.CLOUDBASE_API_KEY }}
           INGEST_SECRET: ${{ secrets.INGEST_SECRET }}
           COMPLIANCE_EXTRA_BLOCKLIST: ${{ secrets.COMPLIANCE_EXTRA_BLOCKLIST }}
           COMPLIANCE_ALLOWLIST: ${{ secrets.COMPLIANCE_ALLOWLIST }}

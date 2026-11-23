@@ -371,7 +371,8 @@ export async function runPipeline(
         pushed = await pushIssueToCloud(requestBody, {
           ingestUrl,
           ingestSecret,
-          timeoutMs,
+          apiKey: env.CLOUDBASE_API_KEY,
+          timeoutMs: Math.max(timeoutMs, 60_000),
           fetchImpl,
         });
       } catch (error) {

@@ -142,7 +142,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 如果你安装了 `@cloudbase/cli`（`npm i -g @cloudbase/cli`）：
 
 ```bash
-cd e:\Downloads\网页创作\gitpulse\cloudbase
+cd e:\Downloads\小程序创作\gitpulse\cloudbase
 tcb login
 # 将环境变量注入并一键部署全部 6 个云函数与触发器
 tcb fn deploy --all --e <你的云开发环境ID>
@@ -325,12 +325,12 @@ HTTP 200 {"code":0,"message":"ok","data":{"issueId":"2026-11-22_daily","issueNo"
    - `TARO_APP_SUBSCRIBE_TEMPLATE_ID=<你的订阅消息模板ID>`
 3. 执行微信小程序生产构建：
    ```bash
-   cd e:\Downloads\网页创作\gitpulse\miniprogram
+   cd e:\Downloads\小程序创作\gitpulse\miniprogram
    pnpm install
    pnpm build:weapp
    ```
 4. 构建完成后，在 **微信开发者工具** 中点击 **「导入项目」**：
-   - **项目目录**：选择 `e:\Downloads\网页创作\gitpulse\miniprogram`（含 `project.config.json` 的目录，其 `miniprogramRoot` 指向编译产物 `dist/`）或直接按 `project.config.json` 导入。
+   - **项目目录**：选择 `e:\Downloads\小程序创作\gitpulse\miniprogram`（含 `project.config.json` 的目录，其 `miniprogramRoot` 指向编译产物 `dist/`）或直接按 `project.config.json` 导入。
    - 在模拟器与真机预览中测试「今日」「发现」「我的」「项目详情」4 个页面，确认云函数调用正常、控制台 0 报错。
 
 ### 7.2 配置《用户隐私保护指引》（提审必配！）
