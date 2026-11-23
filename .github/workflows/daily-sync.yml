@@ -2,8 +2,8 @@ name: GitPulse Daily Sync & Web Publish
 
 on:
   schedule:
-    # 每天北京时间 07:30（UTC 23:30）自动执行抓取、AI 加工、云开发入库并发布公开网页版 + RSS
-    - cron: '30 23 * * *'
+    # 每天北京时间 08:23（UTC 00:23，避开整点/半点队列高峰）自动执行抓取、AI 加工、云开发入库并发布公开网页版 + RSS
+    - cron: '23 0 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
