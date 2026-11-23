@@ -358,3 +358,37 @@ test('only the checked summary is published, including for oversized input', asy
     else process.env.INGEST_SECRET = previous;
   }
 });
+
+test('checkWeChatMsgSec uses stable_token + HTTPS msg_sec_check when WX_APPID and WX_APPSECRET are configured', async () => {
+  const sdk = createMockWxSdk();
+  delete sdk.openapi.security;
+  const fn = loadCloudFunction('ingestIssue', sdk);
+  const calls = [];
+  const postJson = async (url, body) => {
+    calls.push({ url, body });
+    if (url.includes('/cgi-bin/stable_token')) {
+      return { access_token: 'stable-tok-123', expires_in: 7200 };
+    }
+    if (body.content.includes('BAD_CONTENT')) {
+      return { errcode: 0, errmsg: 'ok', result: { suggest: 'risky', label: 20001 } };
+    }
+    return { errcode: 0, errmsg: 'ok', result: { suggest: 'pass', label: 100 } };
+  };
+
+  const env = {
+    MSG_SEC_CHECK_OPENID: 'real-openid-1',
+    WX_APPID: 'wx-test-appid',
+    WX_APPSECRET: 'wx-test-secret',
+  };
+
+  const passRes = await fn._internal.checkWeChatMsgSec('安全开源项目介绍', env, { postJson });
+  assert.equal(passRes.allowed, true);
+
+  const riskyRes = await fn._internal.checkWeChatMsgSec('含 BAD_CONTENT 文本', env, { postJson });
+  assert.equal(riskyRes.allowed, false);
+  assert.equal(riskyRes.matchedRule, 'wx-risky');
+
+  // Token fetched once and cached for second check
+  assert.equal(calls.filter((c) => c.url.includes('stable_token')).length, 1);
+  assert.equal(calls.filter((c) => c.url.includes('msg_sec_check?access_token=stable-tok-123')).length, 2);
+});

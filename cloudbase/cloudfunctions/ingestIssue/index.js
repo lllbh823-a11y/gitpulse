@@ -1,6 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const https = require('https');
 const cloud = require('wx-server-sdk');
 
 cloud.init({
@@ -125,7 +126,114 @@ function buildRepoModerationText(repoData) {
   return [repoData.owner, repoData.name, repoData.url, repoData.license, repoData.language, ...parts].join('\n');
 }
 
-async function checkWeChatMsgSec(content, env = process.env) {
+let cachedWeChatToken = {
+  appid: '',
+  token: '',
+  expiresAt: 0,
+};
+
+function postHttpsJson(urlString, bodyObj, timeoutMs = 10000) {
+  return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(urlString);
+    const payload = Buffer.from(JSON.stringify(bodyObj), 'utf8');
+    const req = https.request(
+      {
+        hostname: parsedUrl.hostname,
+        port: parsedUrl.port || 443,
+        path: `${parsedUrl.pathname}${parsedUrl.search}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': payload.length,
+        },
+        timeout: timeoutMs,
+      },
+      (res) => {
+        const chunks = [];
+        res.on('data', (chunk) => chunks.push(chunk));
+        res.on('end', () => {
+          const text = Buffer.concat(chunks).toString('utf8');
+          let json;
+          try {
+            json = JSON.parse(text);
+          } catch (_err) {
+            reject(new Error(`微信接口返回非 JSON (HTTP ${res.statusCode}): ${text.slice(0, 120)}`));
+            return;
+          }
+          if (res.statusCode && res.statusCode >= 400) {
+            reject(new Error(`微信接口 HTTP ${res.statusCode}: ${json.errmsg || text.slice(0, 120)}`));
+            return;
+          }
+          resolve(json);
+        });
+      }
+    );
+    req.on('timeout', () => {
+      req.destroy(new Error('微信审核接口请求超时'));
+    });
+    req.on('error', reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
+async function getWeChatStableAccessToken(env = process.env, { forceRefresh = false, postJson = postHttpsJson } = {}) {
+  const appid = env.WX_APPID?.trim();
+  const secret = env.WX_APPSECRET?.trim();
+  if (!appid || !secret) {
+    return '';
+  }
+
+  const now = Date.now();
+  if (
+    !forceRefresh &&
+    cachedWeChatToken.token &&
+    cachedWeChatToken.appid === appid &&
+    now < cachedWeChatToken.expiresAt
+  ) {
+    return cachedWeChatToken.token;
+  }
+
+  const res = await postJson('https://api.weixin.qq.com/cgi-bin/stable_token', {
+    grant_type: 'client_credential',
+    appid,
+    secret,
+    force_refresh: forceRefresh,
+  });
+
+  if (!res || typeof res.access_token !== 'string' || !res.access_token) {
+    const code = res?.errcode ?? 'unknown';
+    const msg = res?.errmsg || 'failed to acquire stable access_token';
+    throw new Error(`获取微信 stable_token 失败 (${code}): ${msg}`);
+  }
+
+  const expiresInSec = Number(res.expires_in) || 7200;
+  cachedWeChatToken = {
+    appid,
+    token: res.access_token,
+    expiresAt: now + Math.max(60, expiresInSec - 300) * 1000,
+  };
+  return cachedWeChatToken.token;
+}
+
+async function callWeChatMsgSecViaHttps({ openid, content, env, postJson = postHttpsJson }) {
+  let token = await getWeChatStableAccessToken(env, { forceRefresh: false, postJson });
+  let res = await postJson(
+    `https://api.weixin.qq.com/wxa/msg_sec_check?access_token=${encodeURIComponent(token)}`,
+    { version: 2, scene: 3, openid, content }
+  );
+  const code = Number(res?.errcode ?? res?.errCode);
+  if (code === 40001 || code === 42001) {
+    token = await getWeChatStableAccessToken(env, { forceRefresh: true, postJson });
+    res = await postJson(
+      `https://api.weixin.qq.com/wxa/msg_sec_check?access_token=${encodeURIComponent(token)}`,
+      { version: 2, scene: 3, openid, content }
+    );
+  }
+  return res;
+}
+
+async function checkWeChatMsgSec(content, env = process.env, deps = {}) {
   const trimmed = String(content || '').trim();
   if (!trimmed) {
     return { allowed: true };
@@ -133,7 +241,8 @@ async function checkWeChatMsgSec(content, env = process.env) {
 
   const api = cloud.openapi?.security;
   const openid = env.MSG_SEC_CHECK_OPENID?.trim();
-  if (!openid || typeof api?.msgSecCheck !== 'function' || env.ENABLE_MSG_SEC_CHECK === 'false') {
+  const hasHttpsCreds = Boolean(env.WX_APPID?.trim() && env.WX_APPSECRET?.trim());
+  if (!openid || (!hasHttpsCreds && typeof api?.msgSecCheck !== 'function') || env.ENABLE_MSG_SEC_CHECK === 'false') {
     throw new Error('微信审核配置缺失或已停用');
   }
   if (trimmed.length > MSG_SEC_CHECK_MAX_CHARS) {
@@ -141,19 +250,27 @@ async function checkWeChatMsgSec(content, env = process.env) {
   }
   let res;
   try {
-    res = await api.msgSecCheck({ version: 2, scene: 3, openid, content: trimmed });
+    res = hasHttpsCreds
+      ? await callWeChatMsgSecViaHttps({
+          openid,
+          content: trimmed,
+          env,
+          postJson: deps.postJson || postHttpsJson,
+        })
+      : await api.msgSecCheck({ version: 2, scene: 3, openid, content: trimmed });
   } catch (err) {
-    if (Number(err.errCode ?? err.code) !== 87014) throw err;
+    if (Number(err.errCode ?? err.errcode ?? err.code) !== 87014) throw err;
     res = { errCode: 87014 };
   }
-  if (res?.errCode === 87014 || (res?.errCode === 0 && res.result?.suggest === 'risky')) {
+  const errCode = res?.errCode ?? res?.errcode;
+  if (errCode === 87014 || (errCode === 0 && res.result?.suggest === 'risky')) {
     return { allowed: false, reason: '微信判定违规', matchedRule: 'wx-risky' };
   }
-  if (res?.errCode === 0 && res.result?.suggest === 'review') {
+  if (errCode === 0 && res.result?.suggest === 'review') {
     return { allowed: false, pending: true, reason: '微信要求复核', matchedRule: 'wx-review' };
   }
-  if (res?.errCode !== 0 || res.result?.suggest !== 'pass') {
-    throw new Error('微信审核未取得明确结论，错误码 ' + (res?.errCode ?? 'unknown'));
+  if (errCode !== 0 || res.result?.suggest !== 'pass') {
+    throw new Error('微信审核未取得明确结论，错误码 ' + (errCode ?? 'unknown'));
   }
   return { allowed: true };
 }
