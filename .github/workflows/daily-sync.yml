@@ -103,15 +103,12 @@ jobs:
           path: miniprogram/src/data/snapshot.json
           retention-days: 7
 
-  publish-web:
-    name: Build & Deploy Web + RSS to GitHub Pages
+  build-web:
+    name: Build Web + RSS Artifact
     needs: sync
     if: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_web != false }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
@@ -161,6 +158,19 @@ jobs:
         with:
           path: miniprogram/dist/h5
 
+  deploy-web:
+    name: Deploy Web + RSS to GitHub Pages
+    needs: build-web
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
